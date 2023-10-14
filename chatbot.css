@@ -13,6 +13,7 @@ padding: 10px;
 margin-right: 10px;
 border: 1px solid #ccc;
 border-radius: 5px;
+height: 90px;
 }
 
 #send-button {
@@ -80,19 +81,27 @@ cursor: pointer;
          max-width: 100%;
      }
      #user-input {
-         width: 70%;
+         width: 72%;
          margin-bottom: 10px;
+        height: 50px;
      }
-
     
 
  }
 
- @media screen and (min-width: 724px) {
+ @media screen and (min-width: 724px)
+{
+
      #chat-container {
-         max-height: 80%;
+         max-height: 199%;
          max-width: 98%; 
      }
-    
 
- }
+     #user-input {
+        width: 72%;
+        margin-bottom: 10px;
+       height: 50px;
+    }
+
+    
+    }
