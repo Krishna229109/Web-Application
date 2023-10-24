@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot with Google Search</title>
+
+    <style>
+        /* Common styles */
+        body {
+            background-image: url('template\img\car.jpg'); /* Replace with your image file */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0; /* Remove default margin */
+            font-family: Arial, sans-serif; /* Use a common font */
+        }
+
+        #user-input {
+    width: 80%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#send-button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+        #chat-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            margin-top: 5px;
+        }
+
+        /* Header styles */
+        #header {
+            background-image: url('/img/bg.jpg');
+            text-align: center;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            position: relative; /* Add this to make positioning relative */
+        }
+
+        /* Add this style to position the image */
+        #header img {
+            position: absolute;
+            top: 10px; /* Adjust the top value as needed */
+            left: 10px; /* Adjust the left value as needed */
+            height: 70px;
+        }
+
+        /* Navigation bar styles */
+        
+
+        /* Chat display styles */
+        .chat-display {
+            height: 100vh; /* 100% of the viewport height */
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            max-height: 100%; /* Adjusted height for mobile */
+            overflow-y: auto;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        /* Responsive styles for mobile */
+        @media screen and (max-width: 767px) {
+            #chat-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .chat-display {
+                max-height: 600px;
+                max-width: 100%;
+            }
+            #user-input {
+                width: 70%;
+                margin-bottom: 10px;
+            }
+
+           
+
+        }
+
+        @media screen and (min-width: 724px) {
+            #chat-container {
+                max-height: 80%;
+                max-width: 98%; /* Adjust for larger screens */
+            }
+           
+
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        
+        <h1>Chatbot</h1>
+    </div>
+    
+    
+    
+    <div id="chat-container">
+        <div class="chat-display" id="chat-display"></div>
+        <input type="text" id="user-input" placeholder="Type your message">
+        <button id="send-button">Send</button>
+    </div>
+
+    <footer style="color: red; text-align: center; margin-top: 5px;">Copyright © KRISHNA DUA 2023 - 2026</footer>
+</body>
+
+<script>
+    const chatDisplay = document.getElementById('chat-display');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const googleApiKey = 'AIzaSyDtSm8WyC-AfQXxU42ilgHc6dEfdSRH3MA'; // Replace with your actual API key
+    const googleCxId = 'a3c0f792f89d349f6'; // Replace with your actual CX ID
+
+    sendButton.addEventListener('click', () => {
+        const userMessage = userInput.value;
+        chatDisplay.innerHTML += `<p>You: ${userMessage}</p>`;
+        userInput.value = '';
+
+        // Make a request to the Google Custom Search API
+        fetch(`https://www.googleapis.com/customsearch/v1?key=${googleApiKey}&cx=${googleCxId}&q=${userMessage}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.items && data.items.length > 0) {
+                    const searchResults = data.items;
+                    let chatbotResponse = 'Chatbot: \n\n';
+
+                    searchResults.forEach((result, index) => {
+                        const title = result.title;
+                        const snippet = result.snippet;
+                        chatbotResponse += `\n${index}.:\n${snippet}\n\n`;
+                    });
+
+                    chatDisplay.innerHTML += `<p>${chatbotResponse}</p>`;
+                } else {
+                    chatDisplay.innerHTML += `<p>Chatbot: I couldn't find any results for your query.</p>`;
+                }
+            })
+            .catch(error => {
+                chatDisplay.innerHTML += `<p>Chatbot: An error occurred while searching.</p>`;
+            });
+    });
+</script>
+</html>
